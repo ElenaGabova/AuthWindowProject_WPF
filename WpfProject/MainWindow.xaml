@@ -19,6 +19,7 @@
                     <Button HorizontalAlignment="Right" Content="Войти" Style="{StaticResource MaterialDesignFlatButton}" />
 
                 </Grid>
+
                 <TextBox x:Name="TextBox_Login" materialDesign:HintAssist.Hint="Введите логин"  Style="{StaticResource MaterialDesignFloatingHintTextBox}"  />
                 <PasswordBox x:Name="PassBox" materialDesign:HintAssist.Hint="Введите пароль" Style="{StaticResource MaterialDesignFloatingHintPasswordBox}"  />
                 <PasswordBox x:Name="PassBox_2" materialDesign:HintAssist.Hint="Повторите пароль"  Style="{StaticResource MaterialDesignFloatingHintPasswordBox}"  />

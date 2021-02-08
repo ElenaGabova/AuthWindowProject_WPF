@@ -12,7 +12,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using WpfProject;
 
 namespace WpfApp2
 {
@@ -21,24 +20,12 @@ namespace WpfApp2
     /// </summary>
     public partial class MainWindow : Window
     {
-        const string ERROR_TEXT  = "Это поле было введено некоректно";
+        const string ERROR_TEXT = "Это поле было введено некоректно";
         public Brush ERROR_COLOR = Brushes.LightGray;
-        private bool isInputCorrect = true;
 
-        ApplicationContext db;
-        
         public MainWindow()
         {
             InitializeComponent();
-            db = new ApplicationContext();
-
-            //var users = db.Users.ToList();
-            //string str = "";
-            //foreach (var user in users)
-            //{
-            //   str += "Login: |" + user.Login;
-            //}
-            //ExampleText.Text = str;
         }
 
         private void Button_Reg_Click(object sender, RoutedEventArgs e)
@@ -47,6 +34,7 @@ namespace WpfApp2
             PassBox.Background = Brushes.White;
             PassBox_2.Background = Brushes.White;
             TextBox_Email.Background = Brushes.White;
+
             CheskCorrectInput(sender, e);
         }
 
@@ -73,28 +61,18 @@ namespace WpfApp2
 
             if (!email.Contains("@"))
                 SetFieldNotCorrect(TextBox_Email);
-
-            if (isInputCorrect)
-            {
-                User user = new User(login, email, pass);
-                db.Users.Add(user);
-                db.SaveChanges();
-            }
-
         }
 
         public void SetFieldNotCorrect(TextBox box)
         {
             box.ToolTip = ERROR_TEXT;
             box.Background = ERROR_COLOR;
-            isInputCorrect = false;
         }
 
         public void SetFieldNotCorrect(PasswordBox box)
         {
             box.ToolTip = ERROR_TEXT;
             box.Background = ERROR_COLOR;
-            isInputCorrect = false;
         }
     }
 }
