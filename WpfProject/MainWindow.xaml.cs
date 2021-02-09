@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WpfProject;
 
 namespace WpfApp2
 {
@@ -61,6 +62,11 @@ namespace WpfApp2
 
             if (!email.Contains("@"))
                 SetFieldNotCorrect(TextBox_Email);
+
+            var db = new ApplicationContext();
+            var user = new User(login,  pass, email);
+            db.Users.Add(user);
+            db.SaveChanges();
         }
 
         public void SetFieldNotCorrect(TextBox box)
