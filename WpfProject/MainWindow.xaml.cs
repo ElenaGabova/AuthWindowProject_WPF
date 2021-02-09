@@ -21,8 +21,7 @@ namespace WpfApp2
     /// </summary>
     public partial class MainWindow : Window
     {
-        const string ERROR_TEXT = "Это поле было введено некоректно";
-        public Brush ERROR_COLOR = Brushes.LightGray;
+        private bool isInputCorrect = true;
 
         public MainWindow()
         {
@@ -32,8 +31,8 @@ namespace WpfApp2
         private void Button_Reg_Click(object sender, RoutedEventArgs e)
         {
             TextBox_Login.Background = Brushes.White;
-            PassBox.Background = Brushes.White;
-            PassBox_2.Background = Brushes.White;
+            PassBox.Background       = Brushes.White;
+            PassBox_2.Background     = Brushes.White;
             TextBox_Email.Background = Brushes.White;
 
             CheskCorrectInput(sender, e);
@@ -41,12 +40,11 @@ namespace WpfApp2
 
         public void CheskCorrectInput(object sender, RoutedEventArgs e)
         {
-            int fieldLength = 5;
-
             string login = TextBox_Login.Text.Trim();
             string pass = PassBox.Password.Trim();
             string pass_2 = PassBox_2.Password.Trim();
             string email = TextBox_Email.Text.ToLower();
+            int fieldLength = 5;
 
             if (login.Length < fieldLength)
                 SetFieldNotCorrect(TextBox_Login);
@@ -63,22 +61,20 @@ namespace WpfApp2
             if (!email.Contains("@"))
                 SetFieldNotCorrect(TextBox_Email);
 
-            var db = new ApplicationContext();
-            var user = new User(login,  pass, email);
-            db.Users.Add(user);
-            db.SaveChanges();
+            if (isInputCorrect)
+            {
+                var user = new User(login, pass, email);
+                var db   = new ApplicationContext();
+                db.Users.Add(user);
+                db.SaveChanges();
+            }
         }
 
-        public void SetFieldNotCorrect(TextBox box)
+        public void SetFieldNotCorrect(Control box)
         {
-            box.ToolTip = ERROR_TEXT;
-            box.Background = ERROR_COLOR;
-        }
-
-        public void SetFieldNotCorrect(PasswordBox box)
-        {
-            box.ToolTip = ERROR_TEXT;
-            box.Background = ERROR_COLOR;
+            box.ToolTip = "Это поле было введено некоректно";
+            box.Background =  Brushes.LightGray;
+            isInputCorrect = false;
         }
     }
 }
