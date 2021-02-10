@@ -29,52 +29,71 @@ namespace WpfApp2
         }
 
         private void Button_Reg_Click(object sender, RoutedEventArgs e)
-        {
-            TextBox_Login.Background = Brushes.White;
-            PassBox.Background       = Brushes.White;
-            PassBox_2.Background     = Brushes.White;
-            TextBox_Email.Background = Brushes.White;
+        {   
+            InitForm();
+            CheskCorrectInput();
+  
+            if (isInputCorrect)
+            {
+                string login = TextBox_Login.Text.Trim();
+                string pass  = PassBox.Password.Trim();
+                string email = TextBox_Email.Text;
 
-            CheskCorrectInput(sender, e);
+                var user = new User(login, pass, email);
+                var db = new ApplicationContext();
+                db.Users.Add(user);
+                db.SaveChanges();
+
+                UserPageWindow userPageWindow = new UserPageWindow();
+                userPageWindow.Show();
+                this.Hide();
+            }   
         }
 
-        public void CheskCorrectInput(object sender, RoutedEventArgs e)
+        private void Button_Auth_Click(object sender, RoutedEventArgs e)
         {
-            string login = TextBox_Login.Text.Trim();
-            string pass = PassBox.Password.Trim();
+            AuthWindow authWindow = new AuthWindow();
+            authWindow.Show();
+            this.Hide();
+        }
+
+        private void CheskCorrectInput()
+        {
+            string login  = TextBox_Login.Text.Trim();
+            string pass   = PassBox.Password.Trim();
             string pass_2 = PassBox_2.Password.Trim();
-            string email = TextBox_Email.Text.ToLower();
+            string email  = TextBox_Email.Text.ToLower();
+
             int fieldLength = 5;
 
             if (login.Length < fieldLength)
-                SetFieldNotCorrect(TextBox_Login);
+                SetControlNotCorrect(TextBox_Login);
 
             if (pass.Length < fieldLength)
-                SetFieldNotCorrect(PassBox);
+                SetControlNotCorrect(PassBox);
 
-            if (pass_2.Length < fieldLength)
-                SetFieldNotCorrect(PassBox_2);
-
-            if (!pass.Equals(pass_2))
-                SetFieldNotCorrect(PassBox_2);
+            if (pass_2.Length < fieldLength || !pass.Equals(pass_2))
+                SetControlNotCorrect(PassBox_2);
 
             if (!email.Contains("@"))
-                SetFieldNotCorrect(TextBox_Email);
+                SetControlNotCorrect(TextBox_Email);
 
-            if (isInputCorrect)
+            void SetControlNotCorrect(Control box)
             {
-                var user = new User(login, pass, email);
-                var db   = new ApplicationContext();
-                db.Users.Add(user);
-                db.SaveChanges();
+                box.ToolTip = "Это поле было введено некоректно";
+                box.Background = Brushes.LightGray;
+                isInputCorrect = false;
             }
         }
 
-        public void SetFieldNotCorrect(Control box)
+        private void InitForm()
         {
-            box.ToolTip = "Это поле было введено некоректно";
-            box.Background =  Brushes.LightGray;
-            isInputCorrect = false;
+            isInputCorrect = true;
+
+            Control[] controls = { TextBox_Login, PassBox, PassBox_2, TextBox_Email };
+
+            foreach (var control in controls)
+                control.Background = Brushes.White;
         }
     }
 }

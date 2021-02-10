@@ -19,10 +19,8 @@ namespace WpfProject
         public User() {}
         public User(string Login, string Pass, string Email) {
             this.Login = Login;
-            this.Pass = Pass;
+            this.Pass  = Pass;
             this.Email = Email;
         }
-
-
     }
 }
