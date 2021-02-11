@@ -15,12 +15,7 @@
             <StackPanel>
                 <TextBlock Text="Кабинет пользователя" FontSize="30" FontWeight="Bold" Margin="0 0 0 20"/>
                 <Button HorizontalAlignment="Right" Content="Выйти"  Click="Button_Close_Click" Style="{StaticResource MaterialDesignFlatButton}" />
-                <Image x:Name ="Image1" Width="300">
-                    <Image.Source>
-                        <BitmapImage DecodePixelWidth="200"  
-         UriSource="C:\Users\Elena\source\repos\WpfProject\WpfProject\hello.jpg" />
-                    </Image.Source>
-                </Image>
+                <Image x:Name ="Image1" Width="300" Source=".\hello.jpg"/>
             </StackPanel>
         </Border>
     </Grid>
